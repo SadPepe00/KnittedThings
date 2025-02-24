@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace</title>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Основные стили */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      color: #1f2937;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .logo_button {
+      text-decoration: none;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-grow: 1;
+      max-width: 600px;
+      margin: 0 20px;
+    }
+
+    .search-bar input {
+      flex-grow: 1;
+      padding: 10px 15px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+
+    .search-bar input:focus {
+      border-color: #3b82f6;
+      outline: none;
+    }
+
+    .search_button {
+      background-color: #3b82f6;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .search_button:hover {
+      background-color: #2563eb;
+    }
+
+    .category-select select {
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1em;
+      background-color: #fff;
+      color: #1f2937;
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231f2937"><path d="M7 10l5 5 5-5z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px;
+      transition: border-color 0.3s;
+    }
+
+    .category-select select:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    .nav-icons ul {
+      display: flex;
+      list-style: none;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-icons ul li a {
+      color: #1f2937;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-icons ul li a:hover {
+      color: #3b82f6;
+    }
+
+    .profile-menu {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      min-width: 160px;
+      padding: 10px 0;
+      animation: fadeIn 0.3s;
+    }
+
+    .profile-menu:hover .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 10px 15px;
+      color: #1f2937;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9em;
+      transition: background-color 0.3s;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f9fafb;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin: 0;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 10px 0 0;
+    }
+
+    .product-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-item {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .product-description {
+      font-size: 0.9em;
+      color: #6b7280;
+      margin: 10px 0;
+    }
+
+    .product-price {
+      font-size: 1.1em;
+      color: #10b981;
+      font-weight: 600;
+    }
+
+    footer {
+      background-color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      color: #6b7280;
+      margin-top: auto;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    footer a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav>
+    <div class="logo">
+      <a href="/" class="logo_button" id="logo-button">
+        <h1>KnittedThings</h1>
+      </a>
+    </div>
+    <form action="/search" method="get">
+      <div class="search-bar">
+        <div class="category-select">
+          <%= select_tag :category, options_for_select(@categories), prompt: "Category" %>
+        </div>
+        <input type="text" name="query" placeholder="Search for products...">
+        <button class="search_button" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
+    <div class="nav-icons">
+      <ul>
+        <li><a href="<%= admin_path %>" title="Settings"><i class="fas fa-cog"></i></a></li>
+        <li><a href="/" title="Home"><i class="fas fa-home"></i></a></li>
+        <li><a href="<%= cart_path %>" title="Cart"><i class="fas fa-shopping-cart"></i></a></li>
+        <li class="profile-menu">
+          <a href="#" id="profileIcon"><i class="fas fa-user"></i></a>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <% if user_signed_in? %>
+              <%= link_to 'Profile', profile_path, class: 'dropdown-item' %>
+              <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'dropdown-item btn btn-link' %>
+            <% else %>
+              <%= link_to 'Sign In', '/users/sign_in', class: 'dropdown-item' %>
+            <% end %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <h2>Welcome to the Marketplace!</h2>
+    <p>Buy the best things knitted with love.</p>
+  </div>
+
+  <div class="product-container">
+    <% @products.each do |product| %>
+      <div class="product-item">
+        <img src="<%= product.image_url %>" alt="<%= product.name %>">
+        <div class="product-info">
+          <h3 class="product-title"><%= product.name %></h3>
+          <p class="product-description"><%= product.description %></p>
+          <p class="product-price">$<%= product.price %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2024 KnittedThings</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,7 @@
+document.getElementById('content-table').innerHTML = '<%= j render(params[:view_type] == "orders" ? "orders_table" : "products_table", params[:view_type] == "orders" ? {orders: @orders} : {products: @products}) %>';
+
+<% if params[:view_type] != 'orders' %>
+  var categorySelect = document.getElementById('category-filter-form').querySelector('select');
+  categorySelect.innerHTML = '<option value="">Select a category</option>' +
+  '<%= j options_for_select(@categories, params[:category]) %>';
+<% end %>

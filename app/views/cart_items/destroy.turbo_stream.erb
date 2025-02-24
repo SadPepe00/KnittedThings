@@ -1,0 +1,7 @@
+<% if @cart_item.quantity > 0 %>
+  <%= turbo_stream.replace "cart-item-#{@cart_item.id}", partial: "cart_items/cart_item", locals: { item: @cart_item } %>
+<% else %>
+  <%= turbo_stream.remove "cart-item-#{@cart_item.id}" %>
+<% end %>
+
+<%= turbo_stream.replace "total-price", partial: "cart/total_price", locals: { total_price: current_user.cart_items.sum { |item| item.product.price * item.quantity } } %>

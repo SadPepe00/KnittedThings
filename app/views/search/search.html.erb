@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace</title>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<header>
+  <nav>
+    <div class="logo">
+    <a href="/" class="logo_button">
+      <h1>KnittedThings</h1>
+    </a>
+    </div>
+    <form action="/search" method="get">
+      <div class="search-bar">
+        <div class="category-select">
+          <%= select_tag :category, options_for_select(@categories, @category), prompt: "Category" %>
+        </div>
+        <input type="text" name="query" value="<%= @original_query %>">
+        <button class="search_button" type="submit">
+          <%= image_tag "search.svg", alt: "Search" %>
+        </button>
+      </form>
+    </div>
+    <div class="nav-icons">
+      <ul>
+        <li><a href="/"><i class="fas fa-home"></i></a></li>
+        <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+        <li class="profile-menu">
+          <a href="#" id="profileIcon"><i class="fas fa-user"></i></a>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <% if user_signed_in? %>
+              <%= link_to 'Профиль', profile_path, class: 'dropdown-item' %>
+              <%= button_to 'Выйти', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+            <% else %>
+              <%= link_to 'Войти', '/users/sign_in', class: 'dropdown-item' %>
+            <% end %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+    <div class="hero">
+        <p>
+            <%= "#{@products.length} products found for request <span class='highlight'>#{@original_query}</span>".html_safe %>
+        </p>
+    </div>
+
+  <div class="product-container">
+    <% @products.each do |product| %>
+      <%= render partial: 'products/product', locals: { product: product } %>
+    <% end %>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2024 BestMarket</p>
+</footer>
+</body>
+</html>

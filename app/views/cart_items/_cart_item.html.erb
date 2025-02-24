@@ -1,0 +1,17 @@
+<div id="cart-item-<%= item.id %>" class="cart-item">
+  <div class="cart-item-image">
+    <img src="<%= item.product.image_url %>" alt="<%= item.product.name %>" />
+  </div>
+
+  <div class="cart-item-info">
+    <h3><%= item.product.name %></h3>
+    <p>Количество: <%= item.quantity %></p>
+    <p>Цена: <%= number_to_currency(item.product.price * item.quantity) %></p>
+  </div>
+
+  <div class="cart-item-actions">
+    <%= button_to '-', cart_item_path(item), method: :patch, class: 'quantity-button decrease',  disabled: item.quantity == 1 ? 'disabled' : nil %>
+    <%= button_to '+', product_add_to_cart_path(item.product), method: :post, class: 'quantity-button increase' %>
+    <%= button_to 'Удалить', cart_item_path(item), method: :delete, class: 'remove-item-button', data: { confirm: 'Вы уверены, что хотите удалить этот товар?' } %>
+  </div>
+</div>
